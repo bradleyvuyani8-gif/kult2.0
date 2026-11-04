@@ -1,9 +1,12 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, current_app
 import sqlite3
 import os
 import json
 
 admin_bp = Blueprint('admin', __name__)
+
+# Private secret route token accessible only by you
+SECRET_ADMIN_ROUTE = "kult-secure-control-panel-9921"
 
 def get_db_connection():
     db_path = current_app.config['DATABASE_PATH']
@@ -11,7 +14,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-@admin_bp.route('/')
+@admin_bp.route(f'/{SECRET_ADMIN_ROUTE}')
 def admin_dashboard():
     # Fetch core statistics and records for the admin panel
     conn = get_db_connection()
@@ -28,7 +31,7 @@ def admin_dashboard():
 
     return render_template('admin.html', users=users, coupons=coupons, products=products)
 
-@admin_bp.route('/product/add', methods=['POST'])
+@admin_bp.route(f'/{SECRET_ADMIN_ROUTE}/product/add', methods=['POST'])
 def add_product():
     # Add a new product to the catalog
     data_path = os.path.join(os.path.dirname(__file__), '../data/products.json')
@@ -52,7 +55,7 @@ def add_product():
 
     return redirect(url_for('admin.admin_dashboard'))
 
-@admin_bp.route('/coupon/add', methods=['POST'])
+@admin_bp.route(f'/{SECRET_ADMIN_ROUTE}/coupon/add', methods=['POST'])
 def add_coupon():
     # Create or update a discount coupon
     code = request.form.get('code').upper()
