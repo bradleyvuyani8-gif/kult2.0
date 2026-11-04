@@ -3,83 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KULT — Login</title>
+    <title>KULT — Access Control</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #e4ebf5;
-            color: #333;
+            background: #08080a;
+            color: #e0e0e0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
         }
-        .auth-card {
+
+        /* Ambient Glowing Background Elements */
+        .bg-glow-1 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(138, 154, 91, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .auth-container {
+            position: relative;
+            z-index: 1;
             width: 100%;
-            max-width: 380px;
-            padding: 40px 30px;
-            background: #e4ebf5;
-            box-shadow: 8px 8px 16px #cbd5e1, -8px -8px 16px #ffffff;
-            border-radius: 16px;
-            text-align: center;
+            max-width: 420px;
+            background: #111116;
+            border: 1px solid #22222a;
+            border-radius: 20px;
+            padding: 35px 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(138, 154, 91, 0.1);
+            backdrop-filter: blur(10px);
         }
-        .logo-container {
-            width: 70px;
-            height: 70px;
+
+        .logo-wrapper {
+            width: 90px;
+            height: 90px;
             margin: 0 auto 20px auto;
-            border-radius: 50%;
-            box-shadow: inset 4px 4px 8px #cbd5e1, inset -4px -4px 8px #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .logo-container img {
-            width: 45px;
-            height: 45px;
+
+        .logo-wrapper img {
+            width: 100%;
+            height: 100%;
             object-fit: contain;
+            filter: drop-shadow(0 0 12px rgba(138, 154, 91, 0.4));
         }
-        h2 {
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+
+        /* Tab Switcher Bar */
+        .tab-box {
+            display: flex;
+            background: #181820;
+            border-radius: 12px;
+            padding: 4px;
             margin-bottom: 30px;
-            color: #555;
+            border: 1px solid #252530;
         }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        input {
-            width: 100%;
-            padding: 14px 16px;
-            background: #e4ebf5;
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 0;
             border: none;
-            box-shadow: inset 3px 3px 6px #cbd5e1, inset -3px -3px 6px #ffffff;
-            color: #333;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        input:focus {
-            box-shadow: inset 4px 4px 8px #cbd5e1, inset -4px -4px 8px #ffffff, 0 0 0 2px rgba(138, 154, 91, 0.3);
-        }
-        .btn {
-            width: 100%;
-            padding: 14px 0;
-            font-size: 0.9rem;
+            background: transparent;
+            color: #777;
+            font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            background-color: #e4ebf5;
-            color: #4a5d4e;
-            border: none;
+            letter-spacing: 1.5px;
             cursor: pointer;
             border-radius: 8px;
-            box-shadow: 5px 5px 10px #cbd5e1, -5px -5px 10px #ffffff;
-            margin-top: 10px;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
-        
+
+        .tab-btn.active {
+            background: #8a9a5b;
+            color: #0b0b0b;
+            box-shadow: 0 4px 12px rgba(138, 154, 91, 0.3);
+        }
+
+        /* Form Slider Container */
+        .forms-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .forms-slider {
+            display: flex;
+            width: 200%;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-panel {
+            width: 50%;
+            padding: 0 5px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #16161e;
+            border: 1px solid #282834;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #8a9a5b;
+            box-shadow: 0 0 10px rgba(138, 154, 91, 0.25);
+            background: #1a1a24;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px 0;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: #8a9a5b;
+            color: #0b0b0b;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(138, 154, 91, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #9ab068;
+            transform: translateY(-1px);
+        }
+
+        .gate-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: color 0.3s;
+        }
+
+        .gate-link:hover {
+            color: #8a9a5b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow-1"></div>
+
+    <div class="auth-container">
+        <div class="logo-wrapper">
+            <img src="/static/kult_logo.gif" alt="KULT">
+        </div>
+
+        <div class="tab-box">
+            <button class="tab-btn active" id="loginTab" onclick="switchTab('login')">Login</button>
+            <button class="tab-btn" id="registerTab" onclick="switchTab('register')">Register</button>
+        </div>
+
+        <div class="forms-wrapper">
+            <div class="forms-slider" id="formsSlider">
+                
+                <!-- LOGIN FORM PANEL -->
+                <div class="form-panel">
+                    <form method="POST" action="/login">
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" id="login-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" name="password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Authenticate</button>
+                    </form>
+                </div>
+
+                <!-- REGISTER FORM PANEL -->
+                <div class="form-panel">
+                    <form method="POST" action="/register">
+                        <div class="form-group">
+                            <label for="reg-name">Full Name</label>
+                            <input type="text" id="reg-name" name="fullname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email">Email Address</label>
+                            <input type="email" id="reg-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Create Password</label>
+                            <input type="password" id="reg-password" name="password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Initialize Account</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <a href="/" class="gate-link">← Return to Main Gate</a>
+    </div>
+
+    <script>
+        function switchTab(type) {
+            const slider = document.getElementById('formsSlider');
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+
+            if (type === 'register') {
+                slider.style.transform = 'translateX(-50%)';
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+            } else {
+                slider.style.transform = 'translateX(0%)';
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+            }
+        }
+
+        // Auto-select tab based on current URL path
+        if (window.location.pathname === '/register') {
+            switchTab('register');
+        }
+    </script>
+</body>
+</html>
