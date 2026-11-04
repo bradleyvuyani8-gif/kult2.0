@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KULT | Admin Dashboard</title>
+    <style>
+        body { background: #0d0d0d; color: #f4f1ea; font-family: monospace; padding: 20px; }
+        h1, h2 { color: #8f9e8b; }
+        .section { background: #161616; padding: 20px; margin-bottom: 20px; border: 1px solid #222; border-radius: 6px; }
+        input, button { background: #222; color: #f4f1ea; border: 1px solid #444; padding: 8px; margin: 5px 0; width: 100%; }
+        button { background: #8f9e8b; color: #0d0d0d; font-weight: bold; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; font-size: 0.9rem; }
+        th { background: #222; }
+    </style>
+</head>
+<body>
+    <h1>KULT STORE ADMIN DASHBOARD</h1>
+    
+    <div class="section">
+        <h2>Coupon Generator & Manager</h2>
+        <input type="text" id="coupon-code" placeholder="Coupon Code (e.g. KULT25)">
+        <input type="number" id="coupon-discount" placeholder="Discount Percentage (e.g. 20)">
+        <button onclick="createCoupon()">Save Coupon</button>
+        
+        <h3>Existing Coupons</h3>
+        <table>
+            <tr><th>Code</th><th>Discount %</th><th>Status</th></tr>
+            {% for c in coupons %}
+            <tr><td>{{ c.code }}</td><td>{{ c.discount_pct }}%</td><td>{{ c.status }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Registered Customer Accounts & Users</h2>
+        <table>
+            <tr><th>ID</th><th>Name</th><th>Email</th><th>Subscribed</th></tr>
+            {% for u in users %}
+            <tr><td>{{ u.id }}</td><td>{{ u.name }}</td><td>{{ u.email }}</td><td>{{ 'Yes' if u.subscribed else 'No' }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Newsletter Subscribers List</h2>
+        <table>
+            <tr><th>Email</th><th>Subscribed At</th></tr>
+            {% for s in subscribers %}
+            <tr><td>{{ s.email }}</td><td>{{ s.subscribed_at }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script>
+        async function createCoupon() {
+            let code = document.getElementById('coupon-code').value;
+            let discount = document.getElementById('coupon-discount').value;
+            let res = await fetch('/api/admin/coupon', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ code, discount })
+            });
+            let data = await res.json();
+            if(data.success) location.reload();
+        }
+    </script>
+</body>
+</html>
