@@ -3,135 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KULT | 3D Interactive Storefront</title>
+    <title>KULT — Access Gate</title>
     <style>
-        :root { --bg: #0d0d0d; --surface: #161616; --sage: #8f9e8b; --crimson: #d94b36; --cream: #f4f1ea; }
-        body { background: var(--bg); color: var(--cream); font-family: monospace; margin: 0; padding: 0; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid #222; }
-        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
-        .logo-svg { width: 35px; height: 35px; fill: var(--sage); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 40px; }
-        .card { background: var(--surface); border: 1px solid #222; padding: 20px; border-radius: 8px; position: relative; }
-        .badge { position: absolute; top: 15px; right: 15px; background: var(--crimson); color: white; padding: 4px 8px; font-size: 0.7rem; border-radius: 4px; }
-        .price { color: var(--sage); font-size: 1.1rem; margin-top: 10px; }
-        button { background: var(--sage); color: var(--bg); border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; margin-top: 15px; width: 100%; border-radius: 4px; }
-        button:hover { background: var(--cream); }
-        .nav-links { display: flex; gap: 15px; align-items: center; font-size: 0.9rem; }
-        .nav-links a { color: var(--sage); text-decoration: none; }
-        .auth-bar { background: #111; padding: 10px 20px; display: flex; justify-content: flex-end; gap: 15px; font-size: 0.8rem; border-bottom: 1px solid #1a1a1a; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #0b0b0b;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .gate-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 450px;
+        }
+        .logo-container {
+            width: 280px;
+            height: 280px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 6s ease-in-out infinite;
+        }
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px rgba(138, 154, 91, 0.35));
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+        .auth-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+        .btn {
+            width: 100%;
+            padding: 16px 0;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: #8a9a5b;
+            color: #0b0b0b;
+            border-color: #8a9a5b;
+        }
+        .btn-primary:hover {
+            background-color: #9ab068;
+            box-shadow: 0 0 15px rgba(138, 154, 91, 0.4);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: #e0e0e0;
+        }
+        .btn-secondary:hover {
+            border-color: #8a9a5b;
+            color: #8a9a5b;
+        }
     </style>
 </head>
 <body>
 
-    <div class="auth-bar" id="auth-bar">
-        <span id="user-welcome">Guest Mode</span>
-        <a href="#" onclick="openAuthModal('login')" id="login-link">Login</a>
-        <a href="#" onclick="openAuthModal('register')" id="reg-link">Register</a>
-        <a href="#" onclick="logoutUser()" id="logout-link" style="display:none; color: var(--crimson);">Logout</a>
+    <div class="gate-container">
+        <!-- Floating Logo Focal Point -->
+        <div class="logo-container">
+            <img src="/static/kult_logo.png" alt="KULT Emblem">
+        </div>
+        
+        <!-- Authentication & Entry Actions -->
+        <div class="auth-actions">
+            <a href="/login" class="btn btn-primary">Login</a>
+            <a href="/register" class="btn btn-secondary">Register</a>
+        </div>
     </div>
 
-    <header>
-        <div class="logo-area">
-            <svg class="logo-svg" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" stroke="#8f9e8b" stroke-width="6" fill="none"/>
-                <path d="M 15 50 Q 50 25 85 50 Q 50 75 15 50 Z" stroke="#8f9e8b" stroke-width="5" fill="none"/>
-                <polygon points="50,40 58,58 42,58" fill="#d94b36"/>
-            </svg>
-            <span>KULT</span>
-        </div>
-        <div class="nav-links">
-            <span id="currency-indicator">Currency: USD</span>
-            <a href="/legal">Legal & Privacy</a>
-            <a href="/admin" target="_blank">Admin Panel</a>
-        </div>
-    </header>
-
-    <main class="grid" id="product-grid">
-        <!-- Injected via JavaScript -->
-    </main>
-
-    <script>
-        let storeConfig = { currency: 'USD', rates: { USD: 1.0 }, products: [], cart: [] };
-
-        async function initStore() {
-            let res = await fetch('/api/config');
-            storeConfig = await res.json();
-            document.getElementById('currency-indicator').innerText = `Currency: ${storeConfig.currency}`;
-            
-            if (storeConfig.logged_in_user) {
-                document.getElementById('user-welcome').innerText = `Logged in as: ${storeConfig.logged_in_user.name}`;
-                document.getElementById('login-link').style.display = 'none';
-                document.getElementById('reg-link').style.display = 'none';
-                document.getElementById('logout-link').style.display = 'inline';
-                storeConfig.cart = storeConfig.saved_cart || [];
-            }
-            renderProducts();
-        }
-
-        function renderProducts() {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = '';
-
-            storeConfig.products.forEach(p => {
-                let rate = storeConfig.rates[storeConfig.currency] || 1.0;
-                let convertedPrice = p.price * rate;
-                let formattedPrice = new Intl.NumberFormat(navigator.language, {
-                    style: 'currency',
-                    currency: storeConfig.currency
-                }).format(convertedPrice);
-
-                grid.innerHTML += `
-                    <div class="card">
-                        <span class="badge">${p.badge}</span>
-                        <h3>${p.name}</h3>
-                        <p style="color: #777; font-size: 0.85rem;">${p.category}</p>
-                        <div class="price">${formattedPrice}</div>
-                        <button onclick="addToCart(${p.id})">Add to Persistent Cart</button>
-                    </div>
-                `;
-            });
-        }
-
-        async function addToCart(productId) {
-            let item = storeConfig.cart.find(i => i.id === productId);
-            if (item) {
-                item.quantity += 1;
-            } else {
-                storeConfig.cart.push({ id: productId, quantity: 1 });
-            }
-            alert("Item added to your account cart!");
-            
-            await fetch('/api/cart/save', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ cart: storeConfig.cart })
-            });
-        }
-
-        async function openAuthModal(type) {
-            let email = prompt("Enter email:");
-            let password = prompt("Enter password:");
-            let name = type === 'register' ? prompt("Enter your full name:") : null;
-
-            let endpoint = type === 'register' ? '/api/auth/register' : '/api/auth/login';
-            let payload = type === 'register' ? { name, email, password } : { email, password };
-
-            let res = await fetch(endpoint, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(payload)
-            });
-            let data = await res.json();
-            alert(data.message || (data.success ? "Success!" : "Failed"));
-            if(data.success) location.reload();
-        }
-
-        async function logoutUser() {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            location.reload();
-        }
-
-        document.addEventListener('DOMContentLoaded', initStore);
-    </script>
 </body>
 </html>
