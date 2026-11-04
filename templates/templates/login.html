@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KULT — Register</title>
+    <title>KULT — Login</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -82,50 +82,4 @@
             margin-top: 10px;
             transition: all 0.2s ease;
         }
-        .btn:active {
-            box-shadow: inset 3px 3px 6px #cbd5e1, inset -3px -3px 6px #ffffff;
-        }
-        .nav-links {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 25px;
-            font-size: 0.8rem;
-        }
-        .nav-links a {
-            color: #666;
-            text-decoration: none;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .nav-links a:hover {
-            color: #4a5d4e;
-        }
-    </style>
-</head>
-<body>
-    <div class="auth-card">
-        <div class="logo-container">
-            <img src="/static/kult_logo.gif" alt="KULT">
-        </div>
-        <h2>Create Account</h2>
         
-        <form method="POST">
-            <div class="form-group">
-                <input type="text" name="fullname" placeholder="Full Name" required>
-            </div>
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Email Address" required>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
-            <button type="submit" class="btn">Register</button>
-        </form>
-
-        <div class="nav-links">
-            <a href="/">← Gate</a>
-            <a href="/login">Existing User?</a>
-        </div>
-    </div>
-</body>
-</html>
