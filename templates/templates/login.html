@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KULT — Login</title>
+    <title>KULT — Register</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -107,21 +107,24 @@
         <div class="logo-container">
             <img src="/static/kult_logo.gif" alt="KULT">
         </div>
-        <h2>Welcome Back</h2>
+        <h2>Create Account</h2>
         
         <form method="POST">
+            <div class="form-group">
+                <input type="text" name="fullname" placeholder="Full Name" required>
+            </div>
             <div class="form-group">
                 <input type="email" name="email" placeholder="Email Address" required>
             </div>
             <div class="form-group">
                 <input type="password" name="password" placeholder="Password" required>
             </div>
-            <button type="submit" class="btn">Login</button>
+            <button type="submit" class="btn">Register</button>
         </form>
 
         <div class="nav-links">
             <a href="/">← Gate</a>
-            <a href="/register">Create Account</a>
+            <a href="/login">Existing User?</a>
         </div>
     </div>
 </body>
