@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "KULT Cybernetic Heavyweight Hoodie",
+    "price": 85.00,
+    "category": "Apparel",
+    "badge": "New Drop",
+    "image": "hoodie.png"
+  },
+  {
+    "id": 2,
+    "name": "KULT Tactical Utility Joggers",
+    "price": 65.00,
+    "category": "Bottoms",
+    "badge": "Limited",
+    "image": "joggers.png"
+  },
+  {
+    "id": 3,
+    "name": "KULT Neural Link Cap",
+    "price": 35.00,
+    "category": "Accessories",
+    "badge": "Hot",
+    "image": "cap.png"
+  }
+]
