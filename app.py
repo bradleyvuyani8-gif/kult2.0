@@ -1,18 +1,22 @@
 from flask import Flask
-from routes.main_routes import main_bp
 from config import Config
-from services.store_service import StoreService
+from routes.main_routes import main_bp
+from routes.admin_routes import admin_bp
+from services.db_service import init_db
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    
-    with app.app_context():
-        StoreService.init_db()
 
+    # Initialize SQLite database for local persistence
+    init_db(app)
+
+    # Register Blueprints
     app.register_blueprint(main_bp)
+    app.register_blueprint(admin_bp, url_prefix='/admin')
+
     return app
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(host='127.0.0.1', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)
