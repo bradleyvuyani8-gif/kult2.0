@@ -7,8 +7,8 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #0b0b0b;
-            color: #e0e0e0;
+            background-color: #e4ebf5;
+            color: #333;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             height: 100vh;
             display: flex;
@@ -16,105 +16,113 @@
             align-items: center;
             justify-content: center;
         }
-        .auth-container {
+        .auth-card {
             width: 100%;
-            max-width: 400px;
-            padding: 40px;
-            background: #121212;
-            border: 1px solid #222;
-            border-radius: 6px;
+            max-width: 380px;
+            padding: 40px 30px;
+            background: #e4ebf5;
+            box-shadow: 8px 8px 16px #cbd5e1, -8px -8px 16px #ffffff;
+            border-radius: 16px;
             text-align: center;
         }
-        .logo-small {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
+        .logo-container {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px auto;
+            border-radius: 50%;
+            box-shadow: inset 4px 4px 8px #cbd5e1, inset -4px -4px 8px #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-container img {
+            width: 45px;
+            height: 45px;
             object-fit: contain;
         }
         h2 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 25px;
-            color: #8a9a5b;
+            margin-bottom: 30px;
+            color: #555;
         }
         .form-group {
             margin-bottom: 20px;
             text-align: left;
         }
-        label {
-            display: block;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            color: #888;
-        }
         input {
             width: 100%;
-            padding: 12px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            color: #fff;
-            border-radius: 4px;
-            font-size: 1rem;
+            padding: 14px 16px;
+            background: #e4ebf5;
+            border: none;
+            box-shadow: inset 3px 3px 6px #cbd5e1, inset -3px -3px 6px #ffffff;
+            color: #333;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
         }
         input:focus {
-            border-color: #8a9a5b;
-            outline: none;
+            box-shadow: inset 4px 4px 8px #cbd5e1, inset -4px -4px 8px #ffffff, 0 0 0 2px rgba(138, 154, 91, 0.3);
         }
         .btn {
             width: 100%;
             padding: 14px 0;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
-            background-color: #8a9a5b;
-            color: #0b0b0b;
+            background-color: #e4ebf5;
+            color: #4a5d4e;
             border: none;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 8px;
+            box-shadow: 5px 5px 10px #cbd5e1, -5px -5px 10px #ffffff;
             margin-top: 10px;
-            transition: background 0.3s;
+            transition: all 0.2s ease;
         }
-        .btn:hover {
-            background-color: #9ab068;
+        .btn:active {
+            box-shadow: inset 3px 3px 6px #cbd5e1, inset -3px -3px 6px #ffffff;
         }
-        .back-link {
-            display: block;
-            margin-top: 20px;
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            font-size: 0.8rem;
+        }
+        .nav-links a {
             color: #666;
             text-decoration: none;
-            font-size: 0.85rem;
-            text-transform: uppercase;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
-        .back-link:hover {
-            color: #8a9a5b;
+        .nav-links a:hover {
+            color: #4a5d4e;
         }
     </style>
 </head>
 <body>
-
-    <div class="auth-container">
-        <img src="/static/kult_logo.gif" alt="KULT" class="logo-small">
-        <h2>Restricted Access</h2>
+    <div class="auth-card">
+        <div class="logo-container">
+            <img src="/static/kult_logo.gif" alt="KULT">
+        </div>
+        <h2>Welcome Back</h2>
         
         <form method="POST">
             <div class="form-group">
-                <label for="email">Email Identifier</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" name="email" placeholder="Email Address" required>
             </div>
             <div class="form-group">
-                <label for="password">Access Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" name="password" placeholder="Password" required>
             </div>
-            <button type="submit" class="btn">Authenticate</button>
+            <button type="submit" class="btn">Login</button>
         </form>
 
-        <a href="/" class="back-link">← Return to Gate</a>
+        <div class="nav-links">
+            <a href="/">← Gate</a>
+            <a href="/register">Create Account</a>
+        </div>
     </div>
-
 </body>
 </html>
