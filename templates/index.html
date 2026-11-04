@@ -20,7 +20,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            touch-action: none; /* Prevents default scroll interference for touch scrubbing */
+            touch-action: none;
         }
         .gate-container {
             display: flex;
@@ -48,7 +48,7 @@
             height: 100%;
             object-fit: contain;
             filter: drop-shadow(0 0 30px rgba(138, 154, 91, 0.35));
-            pointer-events: none; /* Allows container to capture touch events smoothly */
+            pointer-events: none;
         }
         .auth-actions {
             display: flex;
@@ -77,7 +77,7 @@
         }
         .btn-primary:hover {
             background-color: #9ab068;
-            box-shadow: c0 0 15px rgba(138, 154, 91, 0.4);
+            box-shadow: 0 0 15px rgba(138, 154, 91, 0.4);
         }
         .btn-secondary {
             background-color: transparent;
@@ -94,7 +94,7 @@
     <div class="gate-container">
         <!-- Interactive Rotating GIF Container -->
         <div class="logo-container" id="interactiveLogo">
-            <!-- Place your downloaded animated GIF in static/kult_logo.gif -->
+            <!-- Points to your newly generated infinite loop GIF -->
             <img src="/static/kult_logo.gif" alt="KULT Emblem" id="logoGif">
         </div>
         
@@ -106,7 +106,7 @@
     </div>
 
     <script>
-        // Optional touch/mouse interaction hook to manipulate rotation feedback
+        // Touch and mouse feedback script for interactive rotation feel
         const container = document.getElementById('interactiveLogo');
         let startX = 0;
 
@@ -117,7 +117,6 @@
         container.addEventListener('touchmove', (e) => {
             let currentX = e.touches[0].clientX;
             let diff = currentX - startX;
-            // Adjusts visual rotation or tilt dynamically based on finger drag distance
             container.style.transform = `perspective(500px) rotateY(${diff * 0.5}deg)`;
         }, {passive: true});
 
