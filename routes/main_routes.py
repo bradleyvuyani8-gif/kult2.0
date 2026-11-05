@@ -14,6 +14,15 @@ def init_db():
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname TEXT, email TEXT UNIQUE, password TEXT)''')
+    
+    # Automatically fix existing tables missing the fullname column
+    try:
+        c.execute("SELECT fullname FROM users LIMIT 1")
+    except sqlite3.OperationalError:
+        c.execute("DROP TABLE users")
+        c.execute('''CREATE TABLE users
+                     (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname TEXT, email TEXT UNIQUE, password TEXT)''')
+        
     conn.commit()
     conn.close()
 
