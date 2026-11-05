@@ -1,6 +1,17 @@
+import sqlite3
 from flask import Blueprint, render_template, request, redirect, url_for, session
 
 main_bp = Blueprint('main', __name__)
+
+def init_db():
+    conn = sqlite3.connect('kult.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS users
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname TEXT, email TEXT UNIQUE, password TEXT)''')
+    conn.commit()
+    conn.close()
+
+init_db()
 
 @main_bp.route('/')
 def index():
@@ -9,13 +20,37 @@ def index():
 @main_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # Add your login logic here
-        return redirect(url_for('main.index'))
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        conn = sqlite3.connect('kult.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, password))
+        user = c.fetchone()
+        conn.close()
+        
+        if user:
+            session['user'] = email
+            return redirect(url_for('main.index'))
+        return "Invalid credentials. <a href='/login'>Try again</a>"
+        
     return render_template('login.html')
 
 @main_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # Add your registration logic here
-        return redirect(url_for('main.index'))
-    return render_template('register.html')
+        fullname = request.form.get('fullname')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        try:
+            conn = sqlite3.connect('kult.db')
+            c = conn.cursor()
+            c.execute("INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)", (fullname, email, password))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('main.login'))
+        except sqlite3.IntegrityError:
+            return "Email already registered. <a href='/login'>Login instead</a>"
+            
+    return render_template('login.html')
