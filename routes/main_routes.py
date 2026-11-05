@@ -1,10 +1,16 @@
+import os
 import sqlite3
 from flask import Blueprint, render_template, request, redirect, url_for, session
 
 main_bp = Blueprint('main', __name__)
 
+# Shared storage database path
+DB_DIR = '/sdcard/KULTDATABASE'
+os.makedirs(DB_DIR, exist_ok=True)
+DB_PATH = os.path.join(DB_DIR, 'store.db')
+
 def init_db():
-    conn = sqlite3.connect('kult.db')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname TEXT, email TEXT UNIQUE, password TEXT)''')
@@ -23,7 +29,7 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         
-        conn = sqlite3.connect('kult.db')
+        conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         c.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, password))
         user = c.fetchone()
@@ -44,7 +50,7 @@ def register():
         password = request.form.get('password')
         
         try:
-            conn = sqlite3.connect('kult.db')
+            conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
             c.execute("INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)", (fullname, email, password))
             conn.commit()
